@@ -11,7 +11,13 @@ class ShoppingCart {
   }
 
   void Add(Item item, int count) {
-    Items.put(item, count);
+    if (!Items.containsKey(item)) {
+      Items.put(item, count);
+      return;
+    }
+
+    Integer itemCount = Items.get(item);
+    Items.put(item, itemCount + count);
   }
 
   Money Checkout() {

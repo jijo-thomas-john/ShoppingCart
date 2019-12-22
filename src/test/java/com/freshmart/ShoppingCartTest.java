@@ -39,4 +39,17 @@ class ShoppingCartTest {
     assertEquals(expectedAmount, amount, "Incorrect amount for items in cart");
   }
 
+  @Test
+  void checkoutShoppingCartAddingItemsInTwoSteps() {
+    ShoppingCart cart = new ShoppingCart();
+    Money expectedAmount = new Money(319.92f);
+
+    cart.Add(Item.DOVE_SOAP, 5);
+    cart.Add(Item.DOVE_SOAP, 3);
+    Money amount = cart.Checkout();
+
+    assertEquals(8, cart.getCount(Item.DOVE_SOAP), String.format("Incorrect count of item %s", Item.DOVE_SOAP.getName()));
+    assertEquals(expectedAmount, amount, "Incorrect amount for items in cart");
+  }
+
 }
