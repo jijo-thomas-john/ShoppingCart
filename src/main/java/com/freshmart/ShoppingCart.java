@@ -4,28 +4,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 class ShoppingCart {
-  private Map<Item, Integer> Items;
+  private float salesTax;
+  private Map<Item, Integer> items;
 
-  ShoppingCart() {
-    Items = new HashMap<>();
+  ShoppingCart(float salesTax) {
+    items = new HashMap<>();
+    this.salesTax = salesTax;
   }
 
   void Add(Item item, int count) {
-    if (!Items.containsKey(item)) {
-      Items.put(item, count);
+    if (!items.containsKey(item)) {
+      items.put(item, count);
       return;
     }
 
-    Integer itemCount = Items.get(item);
-    Items.put(item, itemCount + count);
+    Integer itemCount = items.get(item);
+    items.put(item, itemCount + count);
   }
 
   Money Checkout() {
-    return Item.DOVE_SOAP.getPrice().times(Items.get(Item.DOVE_SOAP));
+    Money amount = new Money(0f);
+
+    for (Item item : items.keySet()) {
+      Money unitPrice = item.getPrice();
+      Integer itemCount = items.get(item);
+      amount = amount.add(unitPrice.times(itemCount));
+    }
+
+    Money taxAmount = computeTax(amount);
+    return amount.add(taxAmount);
+  }
+
+  private Money computeTax(Money amount) {
+    return amount.times(salesTax);
   }
 
   int getCount(Item item) {
-    return Items.get(item);
+    return items.get(item);
   }
 
 }

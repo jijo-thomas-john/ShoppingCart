@@ -6,49 +6,42 @@ import org.junit.jupiter.api.Test;
 class MoneyTest {
 
   @Test
-  void getAmount() {
-    Money money = new Money(10f);
-
-    Assertions.assertEquals(10.00f, money.getAmount(), "Incorrect money amount");
-  }
-
-  @Test
-  void getAmountWithPaisa() {
-    Money money = new Money(10.01f);
-
-    Assertions.assertEquals(10.01f, money.getAmount(), "Incorrect money amount");
-  }
-
-  @Test
-  void getAmountWithPaisaHavingThreePrecisionForRoundUp() {
-    Money money = new Money(0.567f);
-
-    Assertions.assertEquals(0.57f, money.getAmount(), "Incorrect money amount");
-  }
-
-  @Test
-  void getAmountWithPaisaHavingThreePrecisionForRoundDown() {
-    Money money = new Money(0.564f);
-
-    Assertions.assertEquals(0.56f, money.getAmount(), "Incorrect money amount");
-  }
-
-  @Test
-  void nTimesZeroMoney() {
+  void timesZeroMoney() {
     Money money = new Money(0);
 
     Money newMoney = money.times(2);
 
-    Assertions.assertEquals(0.00f, newMoney.getAmount(), "Incorrect money amount");
+    Assertions.assertEquals(money, newMoney, "Incorrect money amount");
   }
 
   @Test
-  void nTimesNonZeroMoney() {
+  void timesNonZeroMoney() {
     Money money = new Money(39.99f);
+    Money expectedMoney = new Money(211.95f);
 
-    Money newMoney = money.times(5);
+    Money newMoney = money.times(5.3f);
 
-    Assertions.assertEquals(199.95f, newMoney.getAmount(), "Incorrect money amount");
+    Assertions.assertEquals(expectedMoney, newMoney, "Incorrect money amount");
+  }
+
+  @Test
+  void addMoneyWithNull() {
+    Money money = new Money(39.99f);
+    Money expectedMoney = new Money(39.99f);
+
+    Money newMoney = money.add(null);
+
+    Assertions.assertEquals(expectedMoney, newMoney, "Incorrect money amount");
+  }
+
+  @Test
+  void addMoneyWithAnotherMoney() {
+    Money money = new Money(39.99f);
+    Money expectedMoney = new Money(50.00f);
+
+    Money newMoney = money.add(new Money(10.01f));
+
+    Assertions.assertEquals(expectedMoney, newMoney, "Incorrect money amount");
   }
 
   @Test

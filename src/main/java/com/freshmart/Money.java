@@ -6,20 +6,24 @@ import java.math.RoundingMode;
 public class Money {
   private final BigDecimal amount;
 
-  private Money(BigDecimal amount) {
-    this.amount = amount.setScale(2, RoundingMode.HALF_UP);
+  private Money(BigDecimal monetaryAmount) {
+    this.amount = monetaryAmount.setScale(2, RoundingMode.HALF_UP);
   }
 
   Money(float monetaryAmount) {
     amount = BigDecimal.valueOf(monetaryAmount).setScale(2, RoundingMode.HALF_UP);
   }
 
-  float getAmount() {
-    return amount.floatValue();
+  Money times(float multiplier) {
+    return new Money(amount.multiply(BigDecimal.valueOf(multiplier)));
   }
 
-  Money times(Integer multiplier) {
-    return new Money(amount.multiply(BigDecimal.valueOf(multiplier)));
+  Money add(Money money) {
+    if (money == null) {
+      return this;
+    }
+
+    return new Money(amount.add(money.amount));
   }
 
   @Override

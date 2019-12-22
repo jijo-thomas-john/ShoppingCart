@@ -1,7 +1,8 @@
 package com.freshmart;
 
 public enum Item {
-  DOVE_SOAP("Dove Soap", new Money(39.99f));
+  DOVE_SOAP("Dove Soap", new Money(39.99f)),
+  AXE_DEO("Axe Deo", new Money(99.99f));
 
   private final String name;
   private final Money price;
